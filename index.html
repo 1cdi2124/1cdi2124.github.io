@@ -174,41 +174,39 @@
         &copy; 2025 Tatsuya Kawai．All rights reserved．
         <p>今日のアクセス数：<span id="today-count">読み込み中</span></p>
         <p>累計アクセス数：<span id="total-count">読み込み中</span></p>
+<footer>
+  &copy; 2025 Tatsuya Kawai．All rights reserved．
+  <p>今日のアクセス数：<span id="today-count">読み込み中</span></p>
+  <p>累計アクセス数：<span id="total-count">読み込み中</span></p>
     </footer>
-
+    
     <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark");
-        }
-
-        const workspace = "blog";
-        const counter = "1cdi2124";
-
-        // 累計アクセス数
-        fetch(`https://api.counter.dev/v2/workspaces/${workspace}/${counter}/hits`, {
-            method: "POST"
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("total-count").textContent = data.total ?? "取得失敗";
-        })
-        .catch(() => {
-            document.getElementById("total-count").textContent = "エラー";
-        });
-
-        // 今日のアクセス数
-        fetch(`https://api.counter.dev/v2/workspaces/${workspace}/${counter}/hits?groupBy=day`, {
-            method: "POST"
-        })
-        .then(res => res.json())
-        .then(data => {
-            const today = new Date().toISOString().slice(0, 10);
-            const todayData = data.find(entry => entry.date === today);
-            document.getElementById("today-count").textContent = todayData ? todayData.count : 0;
-        })
-        .catch(() => {
-            document.getElementById("today-count").textContent = "エラー";
-        });
+    const namespace = "1cdi2124";
+    
+    // 累計アクセス数
+    fetch(`https://counterapi.dev/api/v1/${namespace}/visits`, {
+      method: "POST"
+    })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("total-count").textContent = data.count;
+      })
+      .catch(() => {
+        document.getElementById("total-count").textContent = "エラー";
+      });
+    
+    // 今日のアクセス数
+    fetch(`https://counterapi.dev/api/v1/${namespace}/visits/today`, {
+      method: "POST"
+    })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("today-count").textContent = data.count;
+      })
+      .catch(() => {
+        document.getElementById("today-count").textContent = "エラー";
+      });
     </script>
+
 </body>
 </html>
