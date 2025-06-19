@@ -163,36 +163,5 @@
     今日のアクセス数：<span id="today-count">読み込み中</span><br>
     累計アクセス数：<span id="total-count">読み込み中</span>
   </footer>
-
-  <script>
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-    }
-
-    const base = "https://api.countapi.xyz";
-    const namespace = "1cdi2124";
-    const domain = "1cdi2124.github.io";
-    const todayKey = "today-" + new Date().toISOString().slice(0, 10);
-
-    // 累計アクセス数（永続）
-    fetch(`${base}/hit/${domain}/${namespace}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("total-count").textContent = data.value;
-      })
-      .catch(() => {
-        document.getElementById("total-count").textContent = "エラー";
-      });
-
-    // 今日のアクセス数（キーを日別に）
-    fetch(`${base}/hit/${domain}/${todayKey}`)
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("today-count").textContent = data.value;
-      })
-      .catch(() => {
-        document.getElementById("today-count").textContent = "エラー";
-      });
-  </script>
 </body>
 </html>
