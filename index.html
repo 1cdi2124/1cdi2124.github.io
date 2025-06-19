@@ -138,7 +138,7 @@
     <section id="works">
       <h2>制作物</h2>
       <ul>
-        <li><a href="https://github.com/yourusername/mahjong-ai" target="_blank">麻雀AIプロジェクト</a></li>
+        <li><a href="https://youtu.be/wF8xojkZ724?si=jreKGXCL6oNmMx-B" target="_blank">麻雀AIプロジェクト</a></li>
         <li><a href="https://x.com/realDonaldTrump" target="_blank">技術ブログ</a></li>
         <li>近日公開予定</li>
       </ul>
@@ -169,30 +169,26 @@
       document.body.classList.toggle("dark");
     }
 
-    const workspace = "blog";
-    const counter = "1cdi2124";
+    const base = "https://api.countapi.xyz";
+    const namespace = "1cdi2124";
+    const domain = "1cdi2124.github.io";
+    const todayKey = "today-" + new Date().toISOString().slice(0, 10);
 
-    // 累計アクセス数
-    fetch(`https://api.counter.dev/v2/workspaces/${workspace}/${counter}/hits`, {
-      method: "POST"
-    })
+    // 累計アクセス数（永続）
+    fetch(`${base}/hit/${domain}/${namespace}`)
       .then(res => res.json())
       .then(data => {
-        document.getElementById("total-count").textContent = data.total ?? "取得失敗";
+        document.getElementById("total-count").textContent = data.value;
       })
       .catch(() => {
         document.getElementById("total-count").textContent = "エラー";
       });
 
-    // 今日のアクセス数
-    fetch(`https://api.counter.dev/v2/workspaces/${workspace}/${counter}/hits?groupBy=day`, {
-      method: "POST"
-    })
+    // 今日のアクセス数（キーを日別に）
+    fetch(`${base}/hit/${domain}/${todayKey}`)
       .then(res => res.json())
       .then(data => {
-        const today = new Date().toISOString().slice(0, 10);
-        const todayData = data.find(entry => entry.date === today);
-        document.getElementById("today-count").textContent = todayData ? todayData.count : 0;
+        document.getElementById("today-count").textContent = data.value;
       })
       .catch(() => {
         document.getElementById("today-count").textContent = "エラー";
