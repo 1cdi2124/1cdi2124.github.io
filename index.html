@@ -171,42 +171,38 @@
     </main>
 
     <footer>
-        &copy; 2025 Tatsuya Kawai．All rights reserved．
-        <p>今日のアクセス数：<span id="today-count">読み込み中</span></p>
-        <p>累計アクセス数：<span id="total-count">読み込み中</span></p>
-<footer>
-  &copy; 2025 Tatsuya Kawai．All rights reserved．
-  <p>今日のアクセス数：<span id="today-count">読み込み中</span></p>
-  <p>累計アクセス数：<span id="total-count">読み込み中</span></p>
-    </footer>
-    
-    <script>
-    const namespace = "1cdi2124";
-    
-    // 累計アクセス数
-    fetch(`https://counterapi.dev/api/v1/${namespace}/visits`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("total-count").textContent = data.count;
-      })
-      .catch(() => {
-        document.getElementById("total-count").textContent = "エラー";
-      });
-    
-    // 今日のアクセス数
-    fetch(`https://counterapi.dev/api/v1/${namespace}/visits/today`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("today-count").textContent = data.count;
-      })
-      .catch(() => {
-        document.getElementById("today-count").textContent = "エラー";
-      });
-    </script>
+      &copy; 2025 Tatsuya Kawai．All rights reserved．
+      <p>今日のアクセス数：<span id="today-count">読み込み中</span></p>
+      <p>累計アクセス数：<span id="total-count">読み込み中</span></p>
+        </footer>
+        
+        <script>
+        const namespace = "1cdi2124";
+        
+        // 累計アクセス数
+        fetch(`https://counterapi.dev/api/v1/${namespace}/visits`, {
+          method: "POST"
+        })
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("total-count").textContent = data.count;
+          })
+          .catch(() => {
+            document.getElementById("total-count").textContent = "エラー";
+          });
+        
+        // 今日のアクセス数
+        fetch(`https://counterapi.dev/api/v1/${namespace}/visits/today`, {
+          method: "POST"
+        })
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("today-count").textContent = data.count;
+          })
+          .catch(() => {
+            document.getElementById("today-count").textContent = "エラー";
+          });
+        </script>
 
 </body>
 </html>
