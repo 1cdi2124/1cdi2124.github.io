@@ -3,66 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>私のWebサイト</title>
+    <title>Tokai University</title>
     <style>
-        body {
-            font-family: sans-serif;
-            line-height: 1.6;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --accent-color: #007acc;
+            --box-bg: #f0f0f0;
         }
+        body.dark {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --accent-color: #4dabf7;
+            --box-bg: #1e1e1e;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Helvetica Neue", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         header {
-            background-color: #222;
+            background-color: var(--accent-color);
             color: white;
-            padding: 20px;
+            padding: 1.5em;
             text-align: center;
         }
-        section {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
+
+        nav {
+            background-color: var(--box-bg);
+            padding: 1em;
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            flex-wrap: wrap;
         }
-        h1, h2 {
-            color: #333;
-        }
-        a {
-            color: #0066cc;
+
+        nav a {
+            color: var(--text-color);
             text-decoration: none;
+            font-weight: bold;
+            position: relative;
         }
-        a:hover {
-            text-decoration: underline;
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s;
         }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 1em;
+            background-color: var(--box-bg);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.75em 1.5em;
+            margin: 1em 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #005a9e;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            margin-top: 2em;
+        }
+
+        input, textarea {
+            padding: 0.75em;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+        }
+
         footer {
             text-align: center;
-            color: #888;
-            padding: 20px;
+            font-size: 0.9em;
+            padding: 2em;
+            color: #777;
+        }
+
+        .toggle {
+            float: right;
+            margin-top: -3.5em;
+            margin-right: 1em;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>ようこそ</h1>
-        <p>これは私のてきとーなWebページである．</p>
+        <h1>ようこそ，凝りまくったWebへ</h1>
+        <div class="toggle">
+            <button onclick="toggleDarkMode()">🌙 ダークモード切替</button>
+        </div>
     </header>
 
-    <section>
-        <h2>プロフィール</h2>
-        <p>私は人工知能を専攻している大学院生である．現在，強化学習で麻雀AIを開発している．</p>
+    <nav>
+        <a href="#profile">プロフィール</a>
+        <a href="#works">制作物</a>
+        <a href="#contact">お問い合わせ</a>
+    </nav>
 
-        <h2>リンク</h2>
-        <ul>
-            <li><a href="https://github.com/1cdi2124" target="_blank">GitHub</a></li>
-            <li><a href="https://x.com/realDonaldTrump" target="_blank">Twitter(X)</a></li>
-            <li><a href="/blog.html">ブログ（準備中）</a></li>
-        </ul>
-    </section>
+    <main>
+        <section id="profile">
+            <h2>プロフィール</h2>
+            <p>私は大学院生であり，人工知能・強化学習・麻雀AIを研究している．</p>
+            <button onclick="alert('ありがとうございます！')">応援する</button>
+        </section>
+
+        <section id="works">
+            <h2>制作物</h2>
+            <ul>
+                <li><a href="https://github.com/yourusername/mahjong-ai" target="_blank">麻雀AIプロジェクト</a></li>
+                <li><a href="https://yourdomain/blog" target="_blank">技術ブログ</a></li>
+                <li>近日公開予定の謎アプリ</li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>お問い合わせ</h2>
+            <form onsubmit="event.preventDefault(); alert('送信されました（仮）');">
+                <label>お名前：<br>
+                    <input type="text" name="name" required>
+                </label>
+                <label>メッセージ：<br>
+                    <textarea name="message" rows="4" required></textarea>
+                </label>
+                <button type="submit">送信</button>
+            </form>
+        </section>
+    </main>
 
     <footer>
-        &copy; 2025 Tatsuya Kawai．All rights reserved．
+        &copy; 2025 .
     </footer>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
 </body>
 </html>
