@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tokai University</title>
+  <meta name="description" content="東海大学大学院生によるAI研究紹介サイト．" />
+  <meta property="og:title" content="Tokai University - 麻雀AIプロジェクト" />
+  <meta property="og:description" content="強化学習・人工知能・麻雀AIに関する研究成果を紹介．" />
+  <meta property="og:type" content="website" />
   <style>
     :root {
       --bg-color: #ffffff;
@@ -29,6 +33,7 @@
       color: white;
       padding: 1.5em;
       text-align: center;
+      position: relative;
     }
     nav {
       background-color: var(--box-bg);
@@ -98,9 +103,21 @@
       color: #777;
     }
     .toggle {
-      float: right;
-      margin-top: -3.5em;
-      margin-right: 1em;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+    }
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      .toggle {
+        position: static;
+        margin: 1em auto 0 auto;
+        display: flex;
+        justify-content: center;
+      }
     }
   </style>
 
@@ -138,8 +155,18 @@
     <section id="works">
       <h2>制作物</h2>
       <ul>
-        <li><a href="https://youtu.be/wF8xojkZ724?si=jreKGXCL6oNmMx-B" target="_blank">麻雀AIプロジェクト</a></li>
-        <li><a href="https://x.com/realDonaldTrump" target="_blank">技術ブログ</a></li>
+        <li>
+          <a href="https://youtu.be/wF8xojkZ724?si=jreKGXCL6oNmMx-B" target="_blank">
+            麻雀AIプロジェクト<br>
+            <small>強化学習による戦略的打牌AIの実演動画</small>
+          </a>
+        </li>
+        <li>
+          <a href="https://your-blog-url.example.com" target="_blank">
+            技術ブログ<br>
+            <small>研究や技術ノートを不定期で掲載中</small>
+          </a>
+        </li>
         <li>近日公開予定</li>
       </ul>
     </section>
@@ -163,5 +190,25 @@
     今日のアクセス数：<span id="today-count">読み込み中</span><br>
     累計アクセス数：<span id="total-count">読み込み中</span>
   </footer>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const currentMode = document.body.classList.contains("dark") ? "dark" : "light";
+      localStorage.setItem("colorMode", currentMode);
+    }
+
+    // 保存されたダークモード設定を反映
+    (function () {
+      const savedMode = localStorage.getItem("colorMode");
+      if (savedMode === "dark") {
+        document.body.classList.add("dark");
+      }
+    })();
+
+    // 仮のアクセスカウント表示
+    document.getElementById("today-count").textContent = "123";
+    document.getElementById("total-count").textContent = "4567";
+  </script>
 </body>
 </html>
