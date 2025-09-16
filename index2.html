@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Simon Game</title>
+<style>
+  body{
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    text-align: center;
+    background:#2c3e50;
+    color:#ecf0f1;
+    margin:0;
+    padding:0;
+  }
+  h1{margin:1.5rem 0;}
+  #game{
+    width:420px;
+    margin:auto;
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .pad{
+    width:200px;height:200px;
+    box-sizing:border-box;
+    border:5px solid #1a252f;
+    cursor:pointer;
+    transition:transform 0.1s,box-shadow 0.1s;
+  }
+  .pad:active{transform:scale(0.95);}
+  .red{background:#e74c3c;}
+  .green{background:#27ae60;}
+  .blue{background:#3498db;}
+  .yellow{background:#f1c40f;}
+  .active{box-shadow:0 0 20px #fff;}
+  #info{
+    margin-top:1rem;
+  }
+  button{
+    padding:0.6rem 1.2rem;
+    font-size:1rem;
+    background:#e67e22;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    border-radius:5px;
+    transition:background 0.2s;
+  }
+  button:hover{background:#d35400;}
+  #score{margin-top:1rem;font-size:1.2rem;}
+</style>
+</head>
+<body>
+
+<h1>Simon Game</h1>
+
+<div id="game">
+  <div class="pad red" data-color="red"></div>
+  <div class="pad blue" data-color="blue"></div>
+  <div class="pad green" data-color="green"></div>
+  <div class="pad yellow" data-color="yellow"></div>
+</div>
+
+<div id="info">
+  <button id="startBtn">Start Game</button>
+  <div id="score">Score: 0</div>
+  <div id="msg"></div>
+</div>
+
+<script>
+'use strict';
+
+/* ------------------------------------
+   1. 変数・定数宣言
+------------------------------------ */
+const pads = document.querySelectorAll('.pad');
+const startBtn = document.getElementById('startBtn');
+const scoreEl = document.getElementById('score');
+const msgEl   = document.getElementById('msg');
+
+let sequence      = [];   // コンピュータ側の順番
+let userSeq       = [];   // ユーザーが入力した順番
+let level         = 0;    // 現在のレベル（スコア）
+let strictMode    = false;  // 1 ストリクトモード
+let canClick      = false; // ユーザーがクリックできるタイミングか？
+
+/* ------------------------------------
+   2. クリックイベント
+------------------------------------ */
+pads.forEach(pad=>{
+  pad.addEventListener('click',()=>{if(!canClick) return;
+    const col = pad.dataset.color;
+    flash(pad);
+    userSeq.push(col);
+    checkUserInput();
+  });
+});
+
+/* ------------------------------------
+   3. 開始ボタン
+------------------------------------ */
+startBtn.addEventListener('click',startGame);
+
+/* ------------------------------------
+   4. ゲーム開始
+------------------------------------ */
+function startGame(){
+  sequence = [];
+  userSeq = [];
+  level = 0;
+  scoreEl.textContent = 'Score: 0';
+  msgEl.textContent = '';
+  addToSequence();
+  playSequence();
+}
+
+/* ------------------------------------
+   5. シーケンスに1つ追加
+------------------------------------ */
+function addToSequence(){
+  const colors = ['red','blue','green','yellow'];
+  const rand = colors[Math.floor(Math.random()*4)];
+  sequence.push(rand);
+}
+
+/* ------------------------------------
+   6. シーケンスを表示
+------------------------------------ */
+function playSequence(){
+  canClick = false;
+  let i = 0;
+  const interval = setInterval(()=>{
+    const color = sequence[i];
+    const pad = document.querySelector(`.pad[data-color="${color}"]`);
+    flash(pad);
+    i++;
+    if(i>=sequence.length) clearInterval(interval);
+  },700);
+  setTimeout(()=>{canClick=true;}, 700*sequence.length + 200);
+}
+
+/* ------------------------------------
+   7. パッドを光らせる
+------------------------------------ */
+function flash(pad){
+  pad.classList.add('active');
+  setTimeout(()=>pad.classList.remove('active'),250);
+}
+
+/* ------------------------------------
+   8. ユーザー入力チェック
+------------------------------------ */
+function checkUserInput(){
+  const current = userSeq.length-1;
+  if(userSeq[current] !== sequence[current]){
+    // 間違い
+    msgEl.textContent = 'Wrong! Game Over.';
+    canClick = false;
+    return;
+  }
+  // 正しく全部入力したか？
+  if(userSeq.length === sequence.length){
+    level++;
+    scoreEl.textContent = `Score: ${level}`;
+    userSeq=[];
+    setTimeout(()=>{
+      addToSequence();
+      playSequence();
+    },800);
+  }
+}
+
+/* ------------------------------------
+   9. （オプション）ストリクトモード切替
+------------------------------------ */
+</script>
+</body>
+</html>
